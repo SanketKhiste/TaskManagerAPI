@@ -9,12 +9,11 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
         policy => policy
-            .WithOrigins("http://localhost:3000") // React dev server
+            .WithOrigins("http://localhost:3000")
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -25,7 +24,6 @@ builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 builder.Services.AddScoped<ISignUpRepository, SignUpRepository>();
 builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 
-// ? Swagger Configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -62,7 +60,6 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
-// ? JWT Authentication
 builder.Services.AddAuthentication(opt =>
 {
     opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -84,7 +81,6 @@ builder.Services.AddAuthentication(opt =>
 
 var app = builder.Build();
 
-// Use CORS
 app.UseCors("AllowReactApp");
 
 if (app.Environment.IsDevelopment())
@@ -99,7 +95,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseGlobalExceptionHandler();
-app.UseAuthentication(); // ? You missed this line earlier
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

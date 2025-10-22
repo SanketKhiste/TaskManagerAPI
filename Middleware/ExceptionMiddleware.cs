@@ -18,15 +18,12 @@ namespace TaskManagerAPI.Middleware
         {
             try
             {
-                // Pass control to the next middleware
                 await _next(context);
             }
             catch (Exception ex)
             {
-                // Log the exception
                 _logger.LogError(ex, $"Something went wrong: {ex.Message}");
 
-                // Handle response
                 await HandleExceptionAsync(context, ex);
             }
         }
@@ -35,7 +32,6 @@ namespace TaskManagerAPI.Middleware
         {
             context.Response.ContentType = "application/json";
 
-            // Default: 500 Internal Server Error
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             var response = new
@@ -51,7 +47,6 @@ namespace TaskManagerAPI.Middleware
         }
     }
 
-    // Extension method to make middleware registration cleaner
     public static class ExceptionMiddlewareExtensions
     {
         public static void UseGlobalExceptionHandler(this IApplicationBuilder app)

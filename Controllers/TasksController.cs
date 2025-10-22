@@ -46,14 +46,6 @@ namespace TaskManagerAPI.Controllers
         [HttpPut("UpdateTask")]
         public async Task<IActionResult> UpdateTask(TaskItem task)
         {
-            //if (task == null)
-            //    return BadRequest(new { message = "Invalid task data." });
-
-            //var existingTask = await _repository.GetByIdAsync(task.Id);
-            //if (existingTask == null)
-            //    return NotFound(new { message = $"Task with Id {task.Id} not found." });
-
-            //task.Id = id; // ensure correct ID
             await _repository.UpdateAsync(task);
             return Ok(new { message = "Task updated successfully." });
         }
