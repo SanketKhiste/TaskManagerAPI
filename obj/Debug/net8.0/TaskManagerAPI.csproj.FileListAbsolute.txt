@@ -81,3 +81,4 @@ F:\Newproject\TaskManagerAPI\TaskManagerAPI\obj\Debug\net8.0\TaskManagerAPI.pdb
 F:\Newproject\TaskManagerAPI\TaskManagerAPI\obj\Debug\net8.0\TaskManagerAPI.genruntimeconfig.cache
 F:\Newproject\TaskManagerAPI\TaskManagerAPI\obj\Debug\net8.0\ref\TaskManagerAPI.dll
 F:\Newproject\TaskManagerAPI\TaskManagerAPI\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\Newproject\TaskManagerAPI\TaskManagerAPI\obj\Debug\net8.0\TaskManagerAPI.sourcelink.json

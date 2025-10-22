@@ -16,21 +16,21 @@ namespace TaskManagerAPI.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<TaskItem>> GetAllAsync()
+        public async Task<IEnumerable<TaskItemResponse>> GetAllAsync()
         {
             using var connection = _context.CreateConnection();
-            var result = await connection.QueryAsync<TaskItem>(
+            var result = await connection.QueryAsync<TaskItemResponse>(
                 "sp_GetAllTasks", commandType: CommandType.StoredProcedure);
             return result;
         }
 
-        public async Task<IEnumerable<TaskItem>> GetByIdAsync(int userId)
+        public async Task<IEnumerable<TaskItemResponse>> GetByIdAsync(int userId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@userId", userId, DbType.Int32);
 
             using var connection = _context.CreateConnection();
-            var taskresult = await connection.QueryAsync<TaskItem>("sp_GetTaskById", parameters, commandType: CommandType.StoredProcedure);
+            var taskresult = await connection.QueryAsync<TaskItemResponse>("sp_GetTaskById", parameters, commandType: CommandType.StoredProcedure);
 
             if (taskresult == null)
                 throw new KeyNotFoundException($"Task with Id {userId} not found."); // Middleware will catch and return 404 if extended

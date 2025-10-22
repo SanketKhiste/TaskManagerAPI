@@ -13,7 +13,6 @@ namespace TaskManagerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
     public class SignUpController : ControllerBase
     {
         private readonly ISignUpRepository _signUp;
@@ -39,14 +38,11 @@ namespace TaskManagerAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest(new { message = "User registration failed." });
+                    return BadRequest(new { message = "Email already exists." });
                 }
             }
             catch (Exception ex)
             {
-                if (ex.Message.Contains("Email already exists"))
-                    return Conflict(new { message = "Email already exists." });
-
                 return StatusCode(500, new { message = "An unexpected error occurred.", error = ex.Message });
             }
         }

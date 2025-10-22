@@ -30,8 +30,13 @@ namespace TaskManagerAPI.Repositories
 
                     string encryptedPassword = EncryptionHelper.Encrypt(signUp.Password);
                     parameters.Add("@PasswordHash", encryptedPassword);
+                    parameters.Add("@Role", signUp.Role);
+                    parameters.Add("@Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
 
-                    return await connection.ExecuteAsync("sp_RegisterUser", parameters, commandType: CommandType.StoredProcedure);
+                    await connection.ExecuteAsync("sp_RegisterUser", parameters, commandType: CommandType.StoredProcedure);
+
+                    int result = parameters.Get<int>("@Result");
+                    return result;
                 }
             }
             catch (SqlException ex)
@@ -43,5 +48,6 @@ namespace TaskManagerAPI.Repositories
                 throw new Exception("An error occurred while registering the user.", ex);
             }
         }
+
     }
 }
