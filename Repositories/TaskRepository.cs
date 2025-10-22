@@ -33,7 +33,7 @@ namespace TaskManagerAPI.Repositories
             var taskresult = await connection.QueryAsync<TaskItemResponse>("sp_GetTaskById", parameters, commandType: CommandType.StoredProcedure);
 
             if (taskresult == null)
-                throw new KeyNotFoundException($"Task with Id {userId} not found."); // Middleware will catch and return 404 if extended
+                throw new KeyNotFoundException($"Task with Id {userId} not found.");
 
             return taskresult;
         }
@@ -84,7 +84,7 @@ namespace TaskManagerAPI.Repositories
                 "sp_DeleteTask", parameters, commandType: CommandType.StoredProcedure);
 
             if (rowsAffected == 0)
-                throw new KeyNotFoundException($"Task with Id {id} not found."); // Middleware will return 404
+                throw new KeyNotFoundException($"Task with Id {id} not found.");
 
             return rowsAffected;
         }

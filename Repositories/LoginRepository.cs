@@ -38,7 +38,6 @@ namespace TaskManagerAPI.Repositories
                     {
                         var claims = new List<Claim>
                             {
-                                //new Claim(ClaimTypes.Name, objResponse.FirstName),
                                 new Claim("Id", objResponse.UserId.ToString()),
                                 new Claim("Name", objResponse.Name),
                                 new Claim("Email", objResponse.Email),

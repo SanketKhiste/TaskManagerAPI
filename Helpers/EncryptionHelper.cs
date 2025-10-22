@@ -7,8 +7,8 @@ namespace TaskManagerAPI.Helpers
 {
     public static class EncryptionHelper
     {
-        private static readonly string key = "A1B2C3D4E5F6G7H8"; // 16 chars = 128-bit key
-        private static readonly string iv = "1H2G3F4E5D6C7B8A";  // 16 chars = 128-bit IV
+        private static readonly string key = "A1B2C3D4E5F6G7H8"; 
+        private static readonly string iv = "1H2G3F4E5D6C7B8A";  
 
         public static string Encrypt(string plainText)
         {
