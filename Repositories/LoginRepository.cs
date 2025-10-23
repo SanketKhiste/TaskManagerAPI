@@ -30,9 +30,12 @@ namespace TaskManagerAPI.Repositories
                 var dynamicParameters = new DynamicParameters();
                 dynamicParameters.Add("Email", email, direction: ParameterDirection.Input, dbType: DbType.String);
                 dynamicParameters.Add("PasswordHash", password, direction: ParameterDirection.Input, dbType: DbType.String);
+                dynamicParameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
                 objResponse = connection.Query<LoginResponse>("sp_LoginUser", param: dynamicParameters, commandType: CommandType.StoredProcedure).FirstOrDefault();;
 
-                if (objResponse != null)
+                var result = dynamicParameters.Get<int>("Result");
+
+                if (result == 1)
                 {
                     if (objResponse.Email == email)
                     {
