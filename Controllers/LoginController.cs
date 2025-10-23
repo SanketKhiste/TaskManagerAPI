@@ -30,7 +30,7 @@ namespace TaskManagerAPI.Controllers
             var response = await _login.LoginAsync(request.Email, password);
 
             if (response == null)
-                return Unauthorized("Invalid email or password.");
+                return Unauthorized(new { message = "Invalid email or password." });
 
             return Ok(response);
         }
