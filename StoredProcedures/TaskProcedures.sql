@@ -1,4 +1,7 @@
-﻿CREATE TABLE Tasks (
+﻿CREATE database TaskManagerDB;
+
+
+CREATE TABLE Tasks (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     Title NVARCHAR(100),
     Description NVARCHAR(MAX),
