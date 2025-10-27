@@ -31,7 +31,7 @@ namespace TaskManagerAPI.Repositories
                 dynamicParameters.Add("Email", email, direction: ParameterDirection.Input, dbType: DbType.String);
                 dynamicParameters.Add("PasswordHash", password, direction: ParameterDirection.Input, dbType: DbType.String);
                 dynamicParameters.Add("Result", dbType: DbType.Int32, direction: ParameterDirection.Output);
-                objResponse = connection.Query<LoginResponse>("sp_LoginUser", param: dynamicParameters, commandType: CommandType.StoredProcedure).FirstOrDefault();;
+                objResponse = connection.Query<LoginResponse>("sp_LoginUser", param: dynamicParameters, commandType: CommandType.StoredProcedure).FirstOrDefault(); ;
 
                 var result = dynamicParameters.Get<int>("Result");
 
@@ -40,12 +40,13 @@ namespace TaskManagerAPI.Repositories
                     if (objResponse.Email == email)
                     {
                         var claims = new List<Claim>
-                            {
-                                new Claim("Id", objResponse.UserId.ToString()),
-                                new Claim("Name", objResponse.Name),
-                                new Claim("Email", objResponse.Email),
-                                new Claim("RoleName", objResponse.RoleName)
-                            };
+                        {
+                            new Claim(ClaimTypes.NameIdentifier, objResponse.UserId.ToString()),
+                            new Claim(ClaimTypes.Name, objResponse.Name),
+                            new Claim(ClaimTypes.Email, objResponse.Email),
+                            new Claim(ClaimTypes.Role, objResponse.RoleName)
+                        };
+
 
                         claims.Add(new Claim(ClaimTypes.Role, objResponse.RoleName));
 
@@ -55,7 +56,7 @@ namespace TaskManagerAPI.Repositories
                             issuer: _configuration["JWT:Issuer"],
                             audience: _configuration["JWT:Audience"],
                             claims: claims,
-                            expires: DateTime.Now.AddSeconds(15),
+                            expires: DateTime.Now.AddSeconds(60),
                             signingCredentials: signinCredentials
                             );
                         var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
