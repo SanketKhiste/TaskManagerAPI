@@ -12,11 +12,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowReactApp",
-        policy => policy
-            .WithOrigins("http://localhost:3000")
-            .AllowAnyHeader()
-            .AllowAnyMethod());
+    options.AddPolicy("AllowFrontendApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "http://localhost:3000")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
 });
 
 builder.Services.AddControllers();
@@ -77,14 +78,23 @@ builder.Services.AddAuthentication(opt =>
         ClockSkew = TimeSpan.Zero,
         ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidAudience = builder.Configuration["JWT:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])
+        ),
         RoleClaimType = ClaimTypes.Role
     };
 });
 
 var app = builder.Build();
 
-app.UseCors("AllowReactApp");
+app.UseHttpsRedirection();
+
+app.UseCors("AllowFrontendApp");
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseGlobalExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
@@ -94,12 +104,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "TaskManager API V1");
     });
 }
-
-app.UseHttpsRedirection();
-
-app.UseGlobalExceptionHandler();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 
